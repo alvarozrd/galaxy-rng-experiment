@@ -1,12 +1,11 @@
 # galaxy-rng-experiment
 Experimental framework for evaluating the influence of pseudorandom number generators and seeds on galaxy morphology classification using machine learning.
 
-
 O projeto integra o PCG64-CP A Lite 1, um gerador pseudoaleatório híbrido desenvolvido no contexto de uma pesquisa de Iniciação Científica, a um pipeline de classificação de imagens astronômicas. O objetivo é comparar seu comportamento com geradores tradicionais, como o PCG64 e o MT19937, analisando desempenho, estabilidade e reprodutibilidade experimental.
 
-⸻
+---
 
-Objetivo
+# Objetivo
 
 Investigar se a escolha do gerador pseudoaleatório e da semente utilizada em um pipeline de aprendizado de máquina influencia:
 
@@ -19,19 +18,10 @@ Investigar se a escolha do gerador pseudoaleatório e da semente utilizada em um
 
 O projeto também busca discutir se resultados obtidos com uma única semente e um único gerador são suficientes para representar adequadamente o comportamento de um modelo de classificação.
 
-⸻
+---
 
-Pergunta de pesquisa
 
-A escolha do gerador pseudoaleatório e da semente influencia o desempenho, a estabilidade e a reprodutibilidade de modelos utilizados na classificação morfológica de galáxias?
-
-Como questão complementar:
-
-Resultados obtidos com uma única semente e um único gerador são representativos da variabilidade experimental de um modelo de aprendizado de máquina?
-
-⸻
-
-Geradores avaliados
+# Geradores avaliados
 
 Inicialmente, o experimento deverá comparar:
 
@@ -44,6 +34,7 @@ Outros geradores poderão ser adicionados posteriormente, desde que utilizem a m
 ---
 # Arquitetura Prevista
 
+```text
 galaxy-rng-experiment/
 ├── README.md
 ├── requirements.txt
@@ -92,5 +83,6 @@ galaxy-rng-experiment/
     ├── raw/
     ├── summaries/
     └── figures/
+```
 
 ---
