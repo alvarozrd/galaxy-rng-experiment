@@ -59,3 +59,14 @@ def test_random_float_returns_values_in_unit_interval() -> None:
 
         assert isinstance(value, float)
         assert 0.0 <= value < 1.0
+
+def test_generate_u64_returns_requested_quantity() -> None:
+    """A geração em lote deve retornar a quantidade solicitada de inteiros."""
+    generator = PCG64CPALite1(seed=123456789)
+
+    values = generator.gerar_u64(25)
+
+    assert isinstance(values, list)
+    assert len(values) == 25
+    assert all(isinstance(value, int) for value in values)
+    assert all(0 <= value <= (2**64 - 1) for value in values)
