@@ -29,7 +29,19 @@ def test_reference_sequence() -> None:
     assert generated_sequence == expected_sequence
 
 
+def test_different_seeds_produce_different_sequences() -> None:
+    """Sementes diferentes devem produzir sequências iniciais diferentes."""
+    generator_a = PCG64CPALite1(seed=123456789)
+    generator_b = PCG64CPALite1(seed=987654321)
+
+    sequence_a = [generator_a.next_u64() for _ in range(10)]
+    sequence_b = [generator_b.next_u64() for _ in range(10)]
+
+    assert sequence_a != sequence_b
+
+
 if __name__ == "__main__":
     test_same_seed_produces_same_sequence()
     test_reference_sequence()
-    print("Testes do núcleo concluídos com sucesso.")
+    test_different_seeds_produce_different_sequences()
+    print("Três testes do núcleo concluídos com sucesso.")
