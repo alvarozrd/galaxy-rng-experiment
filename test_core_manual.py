@@ -1,12 +1,17 @@
 from src.rng.core import PCG64CPALite1
 
 
-gerador = PCG64CPALite1(seed=123456789)
+def test_same_seed_produces_same_sequence() -> None:
+    """A mesma semente deve produzir exatamente a mesma sequência."""
+    generator_a = PCG64CPALite1(seed=123456789)
+    generator_b = PCG64CPALite1(seed=123456789)
 
-print("Cinco inteiros de 64 bits:")
-for _ in range(5):
-    print(gerador.next_u64())
+    sequence_a = [generator_a.next_u64() for _ in range(10)]
+    sequence_b = [generator_b.next_u64() for _ in range(10)]
 
-print("\nCinco valores em [0, 1):")
-for _ in range(5):
-    print(gerador.random_float())
+    assert sequence_a == sequence_b
+
+
+if __name__ == "__main__":
+    test_same_seed_produces_same_sequence()
+    print("Teste de reprodutibilidade concluído com sucesso.")
