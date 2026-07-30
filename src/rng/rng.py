@@ -109,3 +109,53 @@ class PCG64CPALite1RNG:
         self.shuffle(values)
 
         return values
+
+    def choice(
+        self,
+        values: list,
+        size: Optional[int] = None,
+        replace: bool = True,
+    ):
+        """
+        Seleciona um ou mais elementos de uma lista.
+
+        Quando size é None, retorna um único elemento.
+        Quando size é um inteiro, retorna uma lista com a quantidade solicitada.
+
+        Se replace for True, um elemento pode ser selecionado mais de uma vez.
+        Se replace for False, cada posição pode ser selecionada apenas uma vez.
+        """
+        if not isinstance(values, list):
+            raise TypeError("values deve ser uma lista.")
+
+        if len(values) == 0:
+            raise ValueError("values não pode ser uma lista vazia.")
+
+        if not isinstance(replace, bool):
+            raise TypeError("replace deve ser um valor booleano.")
+
+        if size is None:
+            random_index = self.integers(0, len(values))
+            return values[random_index]
+
+        if isinstance(size, bool) or not isinstance(size, int):
+            raise TypeError("size deve ser um número inteiro ou None.")
+
+        if size < 0:
+            raise ValueError("size não pode ser negativo.")
+
+        if not replace and size > len(values):
+            raise ValueError(
+                "Não é possível selecionar mais elementos que o disponível "
+                "quando replace=False."
+            )
+
+        if replace:
+            return [
+                values[self.integers(0, len(values))]
+                for _ in range(size)
+            ]
+
+        selected_indices = self.permutation(len(values))[:size]
+
+        return [values[index] for index in selected_indices]

@@ -218,3 +218,100 @@ def test_permutation_rejects_invalid_values() -> None:
 
     with pytest.raises(ValueError):
         rng.permutation(-1)
+
+# testes para função choice 
+
+def test_choice_returns_element_from_list() -> None:
+    """A escolha unitária deve retornar um elemento da lista."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+    values = ["espiral", "elíptica", "irregular"]
+
+    result = rng.choice(values)
+
+    assert result in values
+
+
+def test_choice_is_reproducible() -> None:
+    """A mesma seed deve produzir a mesma sequência de escolhas."""
+    rng_a = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+    rng_b = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+    values = list(range(100))
+
+    choices_a = [rng_a.choice(values) for _ in range(50)]
+    choices_b = [rng_b.choice(values) for _ in range(50)]
+
+    assert choices_a == choices_b
+
+
+def test_choice_returns_requested_quantity_with_replacement() -> None:
+    """A seleção com reposição deve retornar a quantidade solicitada."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+    values = ["A", "B", "C"]
+
+    result = rng.choice(values, size=20, replace=True)
+
+    assert isinstance(result, list)
+    assert len(result) == 20
+    assert all(value in values for value in result)
+
+
+def test_choice_without_replacement_has_unique_positions() -> None:
+    """A seleção sem reposição não deve repetir posições."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+    values = list(range(100))
+
+    result = rng.choice(values, size=50, replace=False)
+
+    assert len(result) == 50
+    assert len(set(result)) == 50
+    assert all(value in values for value in result)
+
+
+def test_choice_with_zero_size_returns_empty_list() -> None:
+    """Solicitar zero elementos deve retornar uma lista vazia."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+
+    result = rng.choice([1, 2, 3], size=0)
+
+    assert result == []
+
+
+def test_choice_rejects_empty_list() -> None:
+    """Não deve ser possível selecionar um elemento de uma lista vazia."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+
+    with pytest.raises(ValueError):
+        rng.choice([])
+
+
+def test_choice_rejects_invalid_size() -> None:
+    """O tamanho deve ser um inteiro não negativo."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+
+    with pytest.raises(TypeError):
+        rng.choice([1, 2, 3], size=2.5)
+
+    with pytest.raises(TypeError):
+        rng.choice([1, 2, 3], size=True)
+
+    with pytest.raises(ValueError):
+        rng.choice([1, 2, 3], size=-1)
+
+
+def test_choice_rejects_excess_without_replacement() -> None:
+    """Sem reposição, size não pode superar a quantidade disponível."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+
+    with pytest.raises(ValueError):
+        rng.choice([1, 2, 3], size=4, replace=False)
+
+
+def test_choice_rejects_invalid_values_and_replace() -> None:
+    """Os parâmetros values e replace devem possuir tipos válidos."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+
+    with pytest.raises(TypeError):
+        rng.choice((1, 2, 3))
+
+    with pytest.raises(TypeError):
+        rng.choice([1, 2, 3], replace=1)
