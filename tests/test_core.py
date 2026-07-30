@@ -50,3 +50,12 @@ def test_next_u64_returns_values_in_valid_range() -> None:
         assert isinstance(value, int)
         assert 0 <= value <= (2**64 - 1)
 
+def test_random_float_returns_values_in_unit_interval() -> None:
+    """Os valores em ponto flutuante devem pertencer ao intervalo [0, 1)."""
+    generator = PCG64CPALite1(seed=123456789)
+
+    for _ in range(1000):
+        value = generator.random_float()
+
+        assert isinstance(value, float)
+        assert 0.0 <= value < 1.0
