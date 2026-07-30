@@ -40,8 +40,13 @@ def test_different_seeds_produce_different_sequences() -> None:
     assert sequence_a != sequence_b
 
 
-if __name__ == "__main__":
-    test_same_seed_produces_same_sequence()
-    test_reference_sequence()
-    test_different_seeds_produce_different_sequences()
-    print("Três testes do núcleo concluídos com sucesso.")
+def test_next_u64_returns_values_in_valid_range() -> None:
+    """Os valores gerados devem permanecer no intervalo de um uint64."""
+    generator = PCG64CPALite1(seed=123456789)
+
+    for _ in range(1000):
+        value = generator.next_u64()
+
+        assert isinstance(value, int)
+        assert 0 <= value <= (2**64 - 1)
+
