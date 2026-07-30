@@ -161,3 +161,60 @@ def test_shuffle_rejects_non_list_values() -> None:
 
     with pytest.raises(TypeError):
         rng.shuffle("galaxy")
+
+#testes para a função de permutação 
+
+
+def test_permutation_preserves_all_indices() -> None:
+    """A permutação deve conter todos os índices exatamente uma vez."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+
+    result = rng.permutation(100)
+
+    assert isinstance(result, list)
+    assert len(result) == 100
+    assert sorted(result) == list(range(100))
+
+
+def test_permutation_is_reproducible() -> None:
+    """A mesma seed deve produzir a mesma permutação."""
+    rng_a = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+    rng_b = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+
+    permutation_a = rng_a.permutation(100)
+    permutation_b = rng_b.permutation(100)
+
+    assert permutation_a == permutation_b
+
+
+def test_permutation_with_different_seeds_changes_order() -> None:
+    """Seeds diferentes devem normalmente produzir permutações diferentes."""
+    rng_a = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+    rng_b = PCG64CPALite1RNG(seed=987654321)
+
+    permutation_a = rng_a.permutation(100)
+    permutation_b = rng_b.permutation(100)
+
+    assert permutation_a != permutation_b
+
+
+def test_permutation_handles_zero_and_one() -> None:
+    """Os casos com zero ou um elemento devem ser tratados corretamente."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+
+    assert rng.permutation(0) == []
+    assert rng.permutation(1) == [0]
+
+
+def test_permutation_rejects_invalid_values() -> None:
+    """O tamanho da permutação deve ser um inteiro não negativo."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+
+    with pytest.raises(TypeError):
+        rng.permutation(5.0)
+
+    with pytest.raises(TypeError):
+        rng.permutation(True)
+
+    with pytest.raises(ValueError):
+        rng.permutation(-1)

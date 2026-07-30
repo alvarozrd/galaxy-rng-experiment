@@ -89,3 +89,23 @@ class PCG64CPALite1RNG:
                 values[current_index],
 
             )
+
+    def permutation(self, n: int) -> list:
+        """
+        Retorna uma permutação pseudoaleatória dos inteiros de 0 até n - 1.
+
+        A lista retornada contém todos os índices exatamente uma vez.
+
+        Exemplo:
+            permutation(5) pode retornar [3, 0, 4, 1, 2].
+        """
+        if isinstance(n, bool) or not isinstance(n, int):
+            raise TypeError("n deve ser um número inteiro.")
+
+        if n < 0:
+            raise ValueError("n não pode ser negativo.")
+
+        values = list(range(n))
+        self.shuffle(values)
+
+        return values
