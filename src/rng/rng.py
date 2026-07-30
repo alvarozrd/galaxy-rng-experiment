@@ -5,7 +5,11 @@ Este módulo adapta o núcleo canônico do gerador para operações que serão
 utilizadas posteriormente em pipelines de aprendizado de máquina.
 """
 
+from typing import Optional
 from .core import PCG64CPALite1
+
+
+UINT64_RANGE = 2**64
 
 
 class PCG64CPALite1RNG:
@@ -18,3 +22,44 @@ class PCG64CPALite1RNG:
     def random(self) -> float:
         """Retorna um número pseudoaleatório no intervalo [0, 1)."""
         return self._core.random_float()
+
+    def integers(self, low: int, high: Optional[int] = None) -> int:
+        """
+        Retorna um inteiro pseudoaleatório no intervalo [low, high).
+
+        Quando apenas um argumento é informado, ele é interpretado como
+        o limite superior e o limite inferior assume o valor zero.
+
+        Exemplos:
+            integers(10) retorna um valor entre 0 e 9.
+            integers(5, 10) retorna um valor entre 5 e 9.
+        """
+        if isinstance(low, bool) or not isinstance(low, int):
+            raise TypeError("low deve ser um número inteiro.")
+
+        if high is not None and (
+            isinstance(high, bool) or not isinstance(high, int)
+        ):
+            raise TypeError("high deve ser um número inteiro ou None.")
+
+        if high is None:
+            high = low
+            low = 0
+
+        interval_size = high - low
+
+        if interval_size <= 0:
+            raise ValueError("high deve ser maior que low.")
+
+        if interval_size > UINT64_RANGE:
+            raise ValueError(
+                "O intervalo não pode possuir mais de 2**64 valores."
+            )
+
+        rejection_limit = UINT64_RANGE - (UINT64_RANGE % interval_size)
+
+        while True:
+            value = self._core.next_u64()
+
+            if value < rejection_limit:
+                return low + (value % interval_size)
