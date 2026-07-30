@@ -132,13 +132,3 @@ class PCG64CPALite1:
         return [self.random_float() for _ in range(n)]
 
 
-if __name__ == "__main__":
-    gerador = PCG64CPALite1(seed=123456789)
-
-    print("Cinco inteiros de 64 bits:")
-    for _ in range(5):
-        print(gerador.next_u64())
-
-    print("\nCinco valores em [0, 1):")
-    for _ in range(5):
-        print(gerador.random_float())
