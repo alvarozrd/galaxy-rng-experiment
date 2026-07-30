@@ -70,3 +70,14 @@ def test_generate_u64_returns_requested_quantity() -> None:
     assert len(values) == 25
     assert all(isinstance(value, int) for value in values)
     assert all(0 <= value <= (2**64 - 1) for value in values)
+
+def test_generate_float_returns_requested_quantity() -> None:
+    """A geração em lote deve retornar a quantidade solicitada de floats."""
+    generator = PCG64CPALite1(seed=123456789)
+
+    values = generator.gerar_float(25)
+
+    assert isinstance(values, list)
+    assert len(values) == 25
+    assert all(isinstance(value, float) for value in values)
+    assert all(0.0 <= value < 1.0 for value in values)
