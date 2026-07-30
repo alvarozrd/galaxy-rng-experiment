@@ -85,3 +85,79 @@ def test_integers_rejects_non_integer_limits() -> None:
 
     with pytest.raises(TypeError):
         rng.integers(True, 10)
+
+#testes para a implementação da função shuffle
+
+def test_shuffle_preserves_all_elements() -> None:
+    """O embaralhamento deve preservar todos os elementos da lista."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+    values = list(range(100))
+    original_values = values.copy()
+
+    rng.shuffle(values)
+
+    assert sorted(values) == sorted(original_values)
+    assert len(values) == len(original_values)
+
+
+def test_shuffle_modifies_list_in_place() -> None:
+    """O método shuffle deve modificar a própria lista."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+    values = list(range(20))
+
+    result = rng.shuffle(values)
+
+    assert result is None
+
+
+def test_shuffle_is_reproducible() -> None:
+    """A mesma seed deve produzir o mesmo embaralhamento."""
+    rng_a = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+    rng_b = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+
+    values_a = list(range(100))
+    values_b = list(range(100))
+
+    rng_a.shuffle(values_a)
+    rng_b.shuffle(values_b)
+
+    assert values_a == values_b
+
+
+def test_shuffle_with_different_seeds_changes_order() -> None:
+    """Seeds diferentes devem normalmente produzir ordens diferentes."""
+    rng_a = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+    rng_b = PCG64CPALite1RNG(seed=987654321)
+
+    values_a = list(range(100))
+    values_b = list(range(100))
+
+    rng_a.shuffle(values_a)
+    rng_b.shuffle(values_b)
+
+    assert values_a != values_b
+
+
+def test_shuffle_handles_empty_and_single_item_lists() -> None:
+    """Listas vazias ou unitárias devem permanecer válidas."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+
+    empty_values = []
+    single_value = ["galaxy"]
+
+    rng.shuffle(empty_values)
+    rng.shuffle(single_value)
+
+    assert empty_values == []
+    assert single_value == ["galaxy"]
+
+
+def test_shuffle_rejects_non_list_values() -> None:
+    """O método deve rejeitar objetos que não sejam listas."""
+    rng = PCG64CPALite1RNG(seed=CANONICAL_SEED)
+
+    with pytest.raises(TypeError):
+        rng.shuffle((1, 2, 3))
+
+    with pytest.raises(TypeError):
+        rng.shuffle("galaxy")

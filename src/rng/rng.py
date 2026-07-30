@@ -63,3 +63,29 @@ class PCG64CPALite1RNG:
 
             if value < rejection_limit:
                 return low + (value % interval_size)
+
+    def shuffle(self, values: list) -> None:
+
+        """
+
+        Embaralha uma lista diretamente, utilizando o algoritmo Fisher-Yates.
+
+        A lista original é modificada e o método não retorna uma nova lista.
+
+        """
+
+        if not isinstance(values, list):
+
+            raise TypeError("values deve ser uma lista.")
+
+        for current_index in range(len(values) - 1, 0, -1):
+
+            random_index = self.integers(0, current_index + 1)
+
+            values[current_index], values[random_index] = (
+
+                values[random_index],
+
+                values[current_index],
+
+            )
