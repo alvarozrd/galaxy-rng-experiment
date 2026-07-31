@@ -1,0 +1,60 @@
+{
+    "generator_name": "pcg64_cp_alite1",
+    "seed": 123456789,
+    "stratified": true,
+    "ratios": {
+        "train": 0.7,
+        "validation": 0.15,
+        "test": 0.15
+    },
+    "dataset_size": 20,
+    "split_sizes": {
+        "train": 14,
+        "validation": 4,
+        "test": 2
+    },
+    "indices": {
+        "train": [
+            15,
+            14,
+            16,
+            7,
+            13,
+            5,
+            0,
+            8,
+            6,
+            12,
+            19,
+            9,
+            18,
+            4
+        ],
+        "validation": [
+            2,
+            1,
+            17,
+            11
+        ],
+        "test": [
+            10,
+            3
+        ]
+    },
+    "class_distribution": {
+        "train": {
+            "eliptica": 4,
+            "irregular": 3,
+            "espiral": 7
+        },
+        "validation": {
+            "espiral": 2,
+            "irregular": 1,
+            "eliptica": 1
+        },
+        "test": {
+            "eliptica": 1,
+            "espiral": 1
+        }
+    }
+}
