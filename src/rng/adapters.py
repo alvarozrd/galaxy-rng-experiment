@@ -112,3 +112,15 @@ class NumPyPCG64RNG:
             return result.item() if hasattr(result, "item") else result
 
         return result.tolist()
+    
+class NumPyMT19937RNG(NumPyPCG64RNG):
+    """Interface de alto nível para o MT19937 disponibilizado pelo NumPy."""
+
+    def __init__(self, seed: int) -> None:
+        """Inicializa o gerador MT19937 do NumPy com uma semente inteira."""
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            raise TypeError("seed deve ser um número inteiro.")
+
+        self._generator = np.random.Generator(
+            np.random.MT19937(seed)
+        )

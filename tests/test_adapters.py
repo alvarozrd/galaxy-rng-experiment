@@ -1,10 +1,11 @@
 import pytest
 
 from src.rng.adapters import NumPyPCG64RNG
-
+from src.rng.adapters import NumPyMT19937RNG
 
 CANONICAL_SEED = 123456789
 
+# tests para o adaptador NumPyPCG64RNG -> biblioteca importada do NumPy
 
 def test_numpy_pcg64_random_returns_float() -> None:
     """O adaptador deve retornar floats no intervalo [0, 1)."""
@@ -96,3 +97,115 @@ def test_numpy_pcg64_rejects_invalid_inputs() -> None:
 
     with pytest.raises(ValueError):
         rng.choice([])
+
+#Testes para o adaptador NumPyMT19937RNG
+
+def test_numpy_mt19937_random_returns_float() -> None:
+
+    """O adaptador MT19937 deve retornar floats no intervalo [0, 1)."""
+
+    rng = NumPyMT19937RNG(seed=CANONICAL_SEED)
+
+    for _ in range(1000):
+
+        value = rng.random()
+
+        assert isinstance(value, float)
+
+        assert 0.0 <= value < 1.0
+
+def test_numpy_mt19937_integers_respects_interval() -> None:
+
+    """Os inteiros do MT19937 devem respeitar o intervalo solicitado."""
+
+    rng = NumPyMT19937RNG(seed=CANONICAL_SEED)
+
+    for _ in range(1000):
+
+        value = rng.integers(5, 10)
+
+        assert isinstance(value, int)
+
+        assert 5 <= value < 10
+
+def test_numpy_mt19937_is_reproducible() -> None:
+
+    """A mesma seed deve produzir a mesma sequência com MT19937."""
+
+    rng_a = NumPyMT19937RNG(seed=CANONICAL_SEED)
+
+    rng_b = NumPyMT19937RNG(seed=CANONICAL_SEED)
+
+    sequence_a = [rng_a.random() for _ in range(100)]
+
+    sequence_b = [rng_b.random() for _ in range(100)]
+
+    assert sequence_a == sequence_b
+
+def test_numpy_mt19937_differs_from_pcg64() -> None:
+
+    """MT19937 e PCG64 devem produzir sequências diferentes."""
+
+    rng_mt = NumPyMT19937RNG(seed=CANONICAL_SEED)
+
+    rng_pcg = NumPyPCG64RNG(seed=CANONICAL_SEED)
+
+    sequence_mt = [rng_mt.random() for _ in range(20)]
+
+    sequence_pcg = [rng_pcg.random() for _ in range(20)]
+
+    assert sequence_mt != sequence_pcg
+
+def test_numpy_mt19937_shuffle_preserves_elements() -> None:
+
+    """O embaralhamento deve preservar todos os elementos."""
+
+    rng = NumPyMT19937RNG(seed=CANONICAL_SEED)
+
+    values = list(range(100))
+
+    original_values = values.copy()
+
+    rng.shuffle(values)
+
+    assert sorted(values) == sorted(original_values)
+
+def test_numpy_mt19937_permutation_preserves_indices() -> None:
+
+    """A permutação deve preservar todos os índices."""
+
+    rng = NumPyMT19937RNG(seed=CANONICAL_SEED)
+
+    result = rng.permutation(100)
+
+    assert isinstance(result, list)
+
+    assert sorted(result) == list(range(100))
+
+def test_numpy_mt19937_choice_without_replacement() -> None:
+
+    """A seleção sem reposição não deve repetir elementos."""
+
+    rng = NumPyMT19937RNG(seed=CANONICAL_SEED)
+
+    values = list(range(100))
+
+    result = rng.choice(values, size=50, replace=False)
+
+    assert isinstance(result, list)
+
+    assert len(result) == 50
+
+    assert len(set(result)) == 50
+
+def test_numpy_mt19937_rejects_invalid_seed() -> None:
+
+    """A seed do MT19937 deve ser um número inteiro."""
+
+    with pytest.raises(TypeError):
+
+        NumPyMT19937RNG(seed=1.5)
+
+    with pytest.raises(TypeError):
+
+        NumPyMT19937RNG(seed=True)
