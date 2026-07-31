@@ -1,6 +1,9 @@
 import pytest
 
-from src.data.splitting import split_dataset_indices
+from src.data.splitting import (
+    split_dataset_indices,
+    split_stratified_indices,
+)
 
 
 CANONICAL_SEED = 123456789
@@ -190,4 +193,176 @@ def test_split_rejects_invalid_ratios() -> None:
             train_ratio="0.70",
             validation_ratio=0.15,
             test_ratio=0.15,
+        )
+
+#testes para a função split_stratified_indices
+
+
+def test_stratified_split_contains_all_indices() -> None:
+    """A divisão estratificada deve preservar todas as amostras."""
+    labels = (
+        ["espiral"] * 60
+        + ["eliptica"] * 30
+        + ["irregular"] * 10
+    )
+
+    result = split_stratified_indices(
+        labels=labels,
+        generator_name="pcg64_cp_alite1",
+        seed=CANONICAL_SEED,
+    )
+
+    all_indices = (
+        result["train"]
+        + result["validation"]
+        + result["test"]
+    )
+
+    assert len(all_indices) == len(labels)
+    assert sorted(all_indices) == list(range(len(labels)))
+
+
+def test_stratified_split_has_no_overlap() -> None:
+    """Uma amostra não pode aparecer em mais de um conjunto."""
+    labels = (
+        ["espiral"] * 60
+        + ["eliptica"] * 30
+        + ["irregular"] * 10
+    )
+
+    result = split_stratified_indices(
+        labels=labels,
+        generator_name="numpy_pcg64",
+        seed=CANONICAL_SEED,
+    )
+
+    train = set(result["train"])
+    validation = set(result["validation"])
+    test = set(result["test"])
+
+    assert train.isdisjoint(validation)
+    assert train.isdisjoint(test)
+    assert validation.isdisjoint(test)
+
+
+def test_stratified_split_preserves_class_distribution() -> None:
+    """Cada conjunto deve receber amostras das diferentes classes."""
+    labels = (
+        ["espiral"] * 60
+        + ["eliptica"] * 30
+        + ["irregular"] * 10
+    )
+
+    result = split_stratified_indices(
+        labels=labels,
+        generator_name="numpy_mt19937",
+        seed=CANONICAL_SEED,
+    )
+
+    def count_class(indices: list, class_name: str) -> int:
+        return sum(
+            labels[index] == class_name
+            for index in indices
+        )
+
+    assert count_class(result["train"], "espiral") == 42
+    assert count_class(result["train"], "eliptica") == 21
+    assert count_class(result["train"], "irregular") == 7
+
+    assert count_class(result["validation"], "espiral") == 9
+    assert count_class(result["validation"], "eliptica") in (4, 5)
+    assert count_class(result["validation"], "irregular") in (1, 2)
+
+
+def test_stratified_split_is_reproducible() -> None:
+    """A mesma configuração deve produzir a mesma divisão."""
+    labels = ["espiral", "eliptica", "irregular"] * 40
+
+    split_a = split_stratified_indices(
+        labels=labels,
+        generator_name="pcg64_cp_alite1",
+        seed=CANONICAL_SEED,
+    )
+
+    split_b = split_stratified_indices(
+        labels=labels,
+        generator_name="pcg64_cp_alite1",
+        seed=CANONICAL_SEED,
+    )
+
+    assert split_a == split_b
+
+
+def test_stratified_split_changes_with_seed() -> None:
+    """Seeds diferentes devem produzir divisões diferentes."""
+    labels = ["espiral", "eliptica", "irregular"] * 40
+
+    split_a = split_stratified_indices(
+        labels=labels,
+        generator_name="numpy_pcg64",
+        seed=CANONICAL_SEED,
+    )
+
+    split_b = split_stratified_indices(
+        labels=labels,
+        generator_name="numpy_pcg64",
+        seed=987654321,
+    )
+
+    assert split_a != split_b
+
+
+def test_stratified_split_supports_small_classes() -> None:
+    """Classes com poucas amostras não devem ser perdidas."""
+    labels = [
+        "espiral",
+        "espiral",
+        "eliptica",
+        "irregular",
+    ]
+
+    result = split_stratified_indices(
+        labels=labels,
+        generator_name="pcg64_cp_alite1",
+        seed=CANONICAL_SEED,
+    )
+
+    all_indices = (
+        result["train"]
+        + result["validation"]
+        + result["test"]
+    )
+
+    assert sorted(all_indices) == [0, 1, 2, 3]
+
+
+def test_stratified_split_handles_empty_labels() -> None:
+    """Uma lista vazia deve produzir três conjuntos vazios."""
+    result = split_stratified_indices(
+        labels=[],
+        generator_name="pcg64_cp_alite1",
+        seed=CANONICAL_SEED,
+    )
+
+    assert result == {
+        "train": [],
+        "validation": [],
+        "test": [],
+    }
+
+
+def test_stratified_split_rejects_invalid_labels() -> None:
+    """labels deve ser uma lista com valores válidos."""
+    with pytest.raises(TypeError):
+        split_stratified_indices(
+            labels=("espiral", "eliptica"),
+            generator_name="pcg64_cp_alite1",
+            seed=CANONICAL_SEED,
+        )
+
+    with pytest.raises(TypeError):
+        split_stratified_indices(
+            labels=[["espiral"], ["eliptica"]],
+            generator_name="pcg64_cp_alite1",
+            seed=CANONICAL_SEED,
         )
