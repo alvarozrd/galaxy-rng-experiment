@@ -1,6 +1,6 @@
 import pytest
 
-from src.rng.rng import PCG64CPALite1RNG
+from src.rng import PCG64CPALite1RNG
 
 
 CANONICAL_SEED = 123456789
@@ -315,3 +315,12 @@ def test_choice_rejects_invalid_values_and_replace() -> None:
 
     with pytest.raises(TypeError):
         rng.choice([1, 2, 3], replace=1)
+
+# testes extras
+def test_rng_can_be_imported_from_package() -> None:
+    """A interface deve estar disponível diretamente pelo pacote src.rng."""
+    from src.rng import PCG64CPALite1RNG as ExportedRNG
+
+    rng = ExportedRNG(seed=CANONICAL_SEED)
+
+    assert isinstance(rng, PCG64CPALite1RNG)
