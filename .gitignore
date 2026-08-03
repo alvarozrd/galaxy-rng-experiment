@@ -1,0 +1,16 @@
+# Arquivos temporários do Python
+__pycache__/
+*.pyc
+
+# Cache dos testes
+.pytest_cache/
+
+# Ambiente virtual
+.venv/
+venv/
+
+# Arquivos temporários dos experimentos fictícios
+results/batch_example/
+
+# Arquivos do macOS
+.DS_Store
