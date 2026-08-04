@@ -21,3 +21,7 @@ data/raw/
 # Resultados locais dos experimentos reais
 results/random_forest_single/
 results/random_forest/
+
+
+# Tabelas derivadas de resultados locais
+results/summaries/
