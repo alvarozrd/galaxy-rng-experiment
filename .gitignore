@@ -14,3 +14,6 @@ results/batch_example/
 
 # Arquivos do macOS
 .DS_Store
+
+# Datasets locais
+data/raw/
