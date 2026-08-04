@@ -59,6 +59,25 @@ def parse_arguments() -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "--seed-start",
+        default=None,
+        type=int,
+        help=(
+            "Primeira seed de uma sequência determinística. Deve ser usada "
+            "junto com --seed-count."
+        ),
+    )
+
+    parser.add_argument(
+        "--seed-count",
+        default=None,
+        type=int,
+        help=(
+            "Quantidade de seeds consecutivas a partir de --seed-start."
+        ),
+    )
+
+    parser.add_argument(
         "--model-random-state",
         default=DEFAULT_MODEL_RANDOM_STATE,
         type=int,
@@ -119,15 +138,68 @@ def save_summary(
         )
 
 
+def resolve_seeds(
+    seed: int = None,
+    seed_start: int = None,
+    seed_count: int = None,
+):
+    """
+    Define quais seeds serão usadas na execução.
+
+    Prioridade:
+        - seed única;
+        - sequência seed_start + seed_count;
+        - None, para usar as seeds padrão do runner.
+    """
+    if seed is not None and (
+        seed_start is not None or seed_count is not None
+    ):
+        raise ValueError(
+            "Use --seed sozinho ou use --seed-start junto com "
+            "--seed-count, mas não misture as duas formas."
+        )
+
+    if seed_start is None and seed_count is None:
+        if seed is None:
+            return None
+
+        return [seed]
+
+    if seed_start is None or seed_count is None:
+        raise ValueError(
+            "--seed-start e --seed-count devem ser usados juntos."
+        )
+
+    if seed_count <= 0:
+        raise ValueError("--seed-count deve ser maior que zero.")
+
+    return [
+        seed_start + offset
+        for offset in range(seed_count)
+    ]
+
+
 def main() -> None:
     """Executa o experimento conforme os argumentos informados."""
     args = parse_arguments()
 
-    if args.generator is not None and args.seed is not None:
+    resolved_seeds = resolve_seeds(
+        seed=args.seed,
+        seed_start=args.seed_start,
+        seed_count=args.seed_count,
+    )
+
+    if (
+        args.generator is not None
+        and resolved_seeds is not None
+        and len(resolved_seeds) == 1
+    ):
+        selected_seed = resolved_seeds[0]
+
         result = run_random_forest_experiment(
             dataset_path=args.dataset,
             generator_name=args.generator,
-            seed=args.seed,
+            seed=selected_seed,
             output_directory=args.output,
             model_random_state=args.model_random_state,
         )
@@ -139,18 +211,16 @@ def main() -> None:
 
         print("Execução única concluída.")
         print(f"Gerador: {args.generator}")
-        print(f"Seed: {args.seed}")
+        print(f"Seed: {selected_seed}")
         print(f"Saída: {args.output}")
         return
 
     generators = None
-    seeds = None
 
     if args.generator is not None:
         generators = [args.generator]
 
-    if args.seed is not None:
-        seeds = [args.seed]
+    seeds = resolved_seeds
 
     run_batch_random_forest_experiments(
         dataset_path=args.dataset,
@@ -162,6 +232,10 @@ def main() -> None:
 
     print("Execução em lote concluída.")
     print(f"Saída: {args.output}")
+
+    if seeds is not None:
+        print(f"Seeds executadas: {seeds[0]} até {seeds[-1]}")
+        print(f"Quantidade de seeds: {len(seeds)}")
 
 
 if __name__ == "__main__":
