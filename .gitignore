@@ -18,10 +18,15 @@ results/batch_example/
 # Datasets locais
 data/raw/
 
-# Resultados locais dos experimentos reais
+# Resultados brutos locais dos experimentos reais
 results/random_forest_single/
 results/random_forest/
+results/random_forest_30_seeds/
+results/random_forest_seed_range_test/
 
 
-# Tabelas derivadas de resultados locais
-results/summaries/
+# Tabelas-resumo versionaveis
+!results/summaries/
+!results/summaries/*.csv
+!results/summaries_30_seeds/
+!results/summaries_30_seeds/*.csv
