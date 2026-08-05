@@ -23,6 +23,7 @@ results/random_forest_single/
 results/random_forest/
 results/random_forest_30_seeds/
 results/random_forest_seed_range_test/
+results/experiment_runs/
 
 
 # Tabelas-resumo versionaveis
@@ -30,3 +31,6 @@ results/random_forest_seed_range_test/
 !results/summaries/*.csv
 !results/summaries_30_seeds/
 !results/summaries_30_seeds/*.csv
+!results/experiment_summaries/
+!results/experiment_summaries/**/*.csv
+!results/experiment_summaries/**/*.md
