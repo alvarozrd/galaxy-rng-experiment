@@ -1,0 +1,414 @@
+{
+  "counts": {
+    "exp1": 90,
+    "exp2": 30,
+    "exp3": 90,
+    "exp4": 360,
+    "exp5": 90
+  },
+  "figures": {
+    "exp1_box": "output/pdf/figures/exp1_split_seed_boxplots.png",
+    "exp1_line": "output/pdf/figures/exp1_split_seed_lines.png",
+    "exp2_line": "output/pdf/figures/exp2_model_state_lines.png",
+    "exp3_box": "output/pdf/figures/exp3_coupled_seed_boxplots.png",
+    "exp1_exp3_std": "output/pdf/figures/exp1_exp3_std_comparison.png",
+    "exp4_size": "output/pdf/figures/exp4_dataset_size_errorbars.png",
+    "exp4_var": "output/pdf/figures/exp4_dataset_size_variability.png",
+    "exp5_time": "output/pdf/figures/exp5_split_timing_bar.png"
+  },
+  "tables": {
+    "exp1_stats": "output/pdf/tables/exp1_stats.csv",
+    "exp4_stats_by_size": "output/pdf/tables/exp4_stats_by_size.csv",
+    "exp5_timing_stats": "output/pdf/tables/exp5_timing_stats.csv",
+    "exp3_stats": "output/pdf/tables/exp3_stats.csv",
+    "exp4_stats_by_size_generator": "output/pdf/tables/exp4_stats_by_size_generator.csv",
+    "exp2_stats": "output/pdf/tables/exp2_stats.csv"
+  },
+  "exp1": {
+    "stats": [
+      {
+        "generator_name": "numpy_mt19937",
+        "test_accuracy_mean": 0.936500350474734,
+        "test_accuracy_std": 0.0031211217479436885,
+        "test_accuracy_min": 0.9304148346396482,
+        "test_accuracy_max": 0.9420760848786084,
+        "test_f1_macro_mean": 0.879020855072027,
+        "test_f1_macro_std": 0.006490792868691672,
+        "validation_accuracy_mean": 0.9360665137614679,
+        "validation_accuracy_std": 0.002908089459996733,
+        "n": 30
+      },
+      {
+        "generator_name": "numpy_pcg64",
+        "test_accuracy_mean": 0.9375135410692665,
+        "test_accuracy_std": 0.0031559135205314367,
+        "test_accuracy_min": 0.9325176830433952,
+        "test_accuracy_max": 0.943987765245651,
+        "test_f1_macro_mean": 0.8813629216959932,
+        "test_f1_macro_std": 0.006161268626101997,
+        "validation_accuracy_mean": 0.9362449031600408,
+        "validation_accuracy_std": 0.0031143023035086104,
+        "n": 30
+      },
+      {
+        "generator_name": "pcg64_cp_alite1",
+        "test_accuracy_mean": 0.9353660867902887,
+        "test_accuracy_std": 0.003161744678072008,
+        "test_accuracy_min": 0.9288854903460142,
+        "test_accuracy_max": 0.9426495889887212,
+        "test_f1_macro_mean": 0.8769716594357585,
+        "test_f1_macro_std": 0.0061208246788746175,
+        "validation_accuracy_mean": 0.9363978083588176,
+        "validation_accuracy_std": 0.002800821841960702,
+        "n": 30
+      }
+    ],
+    "best_test_accuracy": [
+      "numpy_pcg64",
+      0.9375135410692665
+    ],
+    "best_test_f1_macro": [
+      "numpy_pcg64",
+      0.8813629216959932
+    ],
+    "largest_test_f1_std": [
+      "numpy_mt19937",
+      0.006490792868691672
+    ]
+  },
+  "exp2": {
+    "stats": [
+      {
+        "generator_name": "numpy_pcg64",
+        "test_accuracy_mean": 0.933588224048939,
+        "test_accuracy_std": 0.0012922811057844595,
+        "test_accuracy_min": 0.9313706748231696,
+        "test_accuracy_max": 0.9363410437774804,
+        "test_f1_macro_mean": 0.8734132212177921,
+        "test_f1_macro_std": 0.0025303797850302423,
+        "validation_accuracy_mean": 0.9371241080530072,
+        "validation_accuracy_std": 0.0010887304892217568,
+        "n": 30
+      }
+    ],
+    "test_accuracy_std": 0.0012922811057844502,
+    "test_f1_macro_std": 0.00253037978503023,
+    "test_accuracy_range": [
+      0.9313706748231696,
+      0.9363410437774804
+    ],
+    "test_f1_macro_range": [
+      0.868997309912146,
+      0.8790255511091596
+    ]
+  },
+  "exp3": {
+    "stats": [
+      {
+        "generator_name": "numpy_mt19937",
+        "test_accuracy_mean": 0.9363983941884917,
+        "test_accuracy_std": 0.0027452238696758476,
+        "test_accuracy_min": 0.9325176830433952,
+        "test_accuracy_max": 0.9426495889887212,
+        "test_f1_macro_mean": 0.8790412477796201,
+        "test_f1_macro_std": 0.00566901493625182,
+        "validation_accuracy_mean": 0.9361748216106014,
+        "validation_accuracy_std": 0.0032342489760847698,
+        "n": 30
+      },
+      {
+        "generator_name": "numpy_pcg64",
+        "test_accuracy_mean": 0.937265022621551,
+        "test_accuracy_std": 0.0029436724166938865,
+        "test_accuracy_min": 0.9309883387497612,
+        "test_accuracy_max": 0.9424584209520168,
+        "test_f1_macro_mean": 0.880781096805156,
+        "test_f1_macro_std": 0.005822854011944988,
+        "validation_accuracy_mean": 0.9361684505606523,
+        "validation_accuracy_std": 0.002822238498889359,
+        "n": 30
+      },
+      {
+        "generator_name": "pcg64_cp_alite1",
+        "test_accuracy_mean": 0.935512648951762,
+        "test_accuracy_std": 0.003113946784648074,
+        "test_accuracy_min": 0.9290766583827184,
+        "test_accuracy_max": 0.9430319250621296,
+        "test_f1_macro_mean": 0.8772440772781926,
+        "test_f1_macro_std": 0.006097211073677121,
+        "validation_accuracy_mean": 0.9362321610601427,
+        "validation_accuracy_std": 0.0028927726474204983,
+        "n": 30
+      }
+    ],
+    "best_test_accuracy": [
+      "numpy_pcg64",
+      0.937265022621551
+    ],
+    "best_test_f1_macro": [
+      "numpy_pcg64",
+      0.880781096805156
+    ]
+  },
+  "exp4": {
+    "stats_by_size_generator": [
+      {
+        "dataset_size": 8718,
+        "generator_name": "numpy_mt19937",
+        "test_accuracy_mean": 0.9302497451580021,
+        "test_accuracy_std": 0.005998697583695212,
+        "test_accuracy_min": 0.9166666666666666,
+        "test_accuracy_max": 0.9418960244648318,
+        "test_f1_macro_mean": 0.8678907790749075,
+        "test_f1_macro_std": 0.011033876867268264,
+        "validation_accuracy_mean": 0.9276503567787971,
+        "validation_accuracy_std": 0.00632194865035577,
+        "n": 30
+      },
+      {
+        "dataset_size": 8718,
+        "generator_name": "numpy_pcg64",
+        "test_accuracy_mean": 0.9291029561671763,
+        "test_accuracy_std": 0.005867056063398264,
+        "test_accuracy_min": 0.9197247706422018,
+        "test_accuracy_max": 0.9396024464831804,
+        "test_f1_macro_mean": 0.8660362884758616,
+        "test_f1_macro_std": 0.011237988554699258,
+        "validation_accuracy_mean": 0.9308868501529053,
+        "validation_accuracy_std": 0.005865910847392456,
+        "n": 30
+      },
+      {
+        "dataset_size": 8718,
+        "generator_name": "pcg64_cp_alite1",
+        "test_accuracy_mean": 0.9271661569826707,
+        "test_accuracy_std": 0.007261077279328096,
+        "test_accuracy_min": 0.9143730886850152,
+        "test_accuracy_max": 0.9396024464831804,
+        "test_f1_macro_mean": 0.8629514379375629,
+        "test_f1_macro_std": 0.013299541608196538,
+        "validation_accuracy_mean": 0.9296381243628951,
+        "validation_accuracy_std": 0.0064450863588810265,
+        "n": 30
+      },
+      {
+        "dataset_size": 17437,
+        "generator_name": "numpy_mt19937",
+        "test_accuracy_mean": 0.931497769279796,
+        "test_accuracy_std": 0.004532224261131763,
+        "test_accuracy_min": 0.9239005736137668,
+        "test_accuracy_max": 0.9434034416826004,
+        "test_f1_macro_mean": 0.8701376410206335,
+        "test_f1_macro_std": 0.008810770570816846,
+        "validation_accuracy_mean": 0.9312826391542478,
+        "validation_accuracy_std": 0.005133588484500038,
+        "n": 30
+      },
+      {
+        "dataset_size": 17437,
+        "generator_name": "numpy_pcg64",
+        "test_accuracy_mean": 0.932746972594009,
+        "test_accuracy_std": 0.004218750582788595,
+        "test_accuracy_min": 0.924282982791587,
+        "test_accuracy_max": 0.939961759082218,
+        "test_f1_macro_mean": 0.8719394787299972,
+        "test_f1_macro_std": 0.0076938460649561,
+        "validation_accuracy_mean": 0.9313463253088778,
+        "validation_accuracy_std": 0.004206678769478159,
+        "n": 30
+      },
+      {
+        "dataset_size": 17437,
+        "generator_name": "pcg64_cp_alite1",
+        "test_accuracy_mean": 0.9340216698534097,
+        "test_accuracy_std": 0.0038631007454853626,
+        "test_accuracy_min": 0.9254302103250478,
+        "test_accuracy_max": 0.94302103250478,
+        "test_f1_macro_mean": 0.8743395016521894,
+        "test_f1_macro_std": 0.007996802257687776,
+        "validation_accuracy_mean": 0.9324544643994396,
+        "validation_accuracy_std": 0.004427513882202518,
+        "n": 30
+      },
+      {
+        "dataset_size": 26156,
+        "generator_name": "numpy_mt19937",
+        "test_accuracy_mean": 0.9349566547679754,
+        "test_accuracy_std": 0.0034968648429334662,
+        "test_accuracy_min": 0.9291177970423252,
+        "test_accuracy_max": 0.9423763386027536,
+        "test_f1_macro_mean": 0.8765741332749664,
+        "test_f1_macro_std": 0.006880063170428877,
+        "validation_accuracy_mean": 0.934548080190282,
+        "validation_accuracy_std": 0.004273808399063961,
+        "n": 30
+      },
+      {
+        "dataset_size": 26156,
+        "generator_name": "numpy_pcg64",
+        "test_accuracy_mean": 0.9341832398436173,
+        "test_accuracy_std": 0.003603816488666442,
+        "test_accuracy_min": 0.9268230494645588,
+        "test_accuracy_max": 0.941101478837328,
+        "test_f1_macro_mean": 0.8746495246092517,
+        "test_f1_macro_std": 0.007102875135235204,
+        "validation_accuracy_mean": 0.9350407747196738,
+        "validation_accuracy_std": 0.0033618299878844307,
+        "n": 30
+      },
+      {
+        "dataset_size": 26156,
+        "generator_name": "pcg64_cp_alite1",
+        "test_accuracy_mean": 0.9345486996430393,
+        "test_accuracy_std": 0.003268768008160935,
+        "test_accuracy_min": 0.9293727689954104,
+        "test_accuracy_max": 0.941101478837328,
+        "test_f1_macro_mean": 0.8754849825627407,
+        "test_f1_macro_std": 0.005897882182186174,
+        "validation_accuracy_mean": 0.9344546381243629,
+        "validation_accuracy_std": 0.003280270511186925,
+        "n": 30
+      },
+      {
+        "dataset_size": 34874,
+        "generator_name": "numpy_mt19937",
+        "test_accuracy_mean": 0.936500350474734,
+        "test_accuracy_std": 0.0031211217479436885,
+        "test_accuracy_min": 0.9304148346396482,
+        "test_accuracy_max": 0.9420760848786084,
+        "test_f1_macro_mean": 0.879020855072027,
+        "test_f1_macro_std": 0.006490792868691672,
+        "validation_accuracy_mean": 0.9360665137614679,
+        "validation_accuracy_std": 0.002908089459996733,
+        "n": 30
+      },
+      {
+        "dataset_size": 34874,
+        "generator_name": "numpy_pcg64",
+        "test_accuracy_mean": 0.9375135410692665,
+        "test_accuracy_std": 0.0031559135205314367,
+        "test_accuracy_min": 0.9325176830433952,
+        "test_accuracy_max": 0.943987765245651,
+        "test_f1_macro_mean": 0.8813629216959932,
+        "test_f1_macro_std": 0.006161268626101997,
+        "validation_accuracy_mean": 0.9362449031600408,
+        "validation_accuracy_std": 0.0031143023035086104,
+        "n": 30
+      },
+      {
+        "dataset_size": 34874,
+        "generator_name": "pcg64_cp_alite1",
+        "test_accuracy_mean": 0.9353660867902887,
+        "test_accuracy_std": 0.003161744678072008,
+        "test_accuracy_min": 0.9288854903460142,
+        "test_accuracy_max": 0.9426495889887212,
+        "test_f1_macro_mean": 0.8769716594357585,
+        "test_f1_macro_std": 0.0061208246788746175,
+        "validation_accuracy_mean": 0.9363978083588176,
+        "validation_accuracy_std": 0.002800821841960702,
+        "n": 30
+      }
+    ],
+    "stats_by_size": [
+      {
+        "dataset_size": 8718,
+        "test_accuracy_mean": 0.9288396194359497,
+        "test_accuracy_std": 0.006462091047187121,
+        "test_accuracy_min": 0.9143730886850152,
+        "test_accuracy_max": 0.9418960244648318,
+        "test_f1_macro_mean": 0.8656261684961107,
+        "test_f1_macro_std": 0.011943738725662439,
+        "validation_accuracy_mean": 0.9293917770981992,
+        "validation_accuracy_std": 0.0062901668050244115,
+        "n": 90
+      },
+      {
+        "dataset_size": 17437,
+        "test_accuracy_mean": 0.9327554705757382,
+        "test_accuracy_std": 0.004292881118871547,
+        "test_accuracy_min": 0.9239005736137668,
+        "test_accuracy_max": 0.9434034416826004,
+        "test_f1_macro_mean": 0.8721388738009401,
+        "test_f1_macro_std": 0.008271423377718972,
+        "validation_accuracy_mean": 0.9316944762875218,
+        "validation_accuracy_std": 0.004586229945218168,
+        "n": 90
+      },
+      {
+        "dataset_size": 26156,
+        "test_accuracy_mean": 0.934562864751544,
+        "test_accuracy_std": 0.0034349381800759856,
+        "test_accuracy_min": 0.9268230494645588,
+        "test_accuracy_max": 0.9423763386027536,
+        "test_f1_macro_mean": 0.8755695468156528,
+        "test_f1_macro_std": 0.006620063154162641,
+        "validation_accuracy_mean": 0.9346811643447729,
+        "validation_accuracy_std": 0.0036341826775750834,
+        "n": 90
+      },
+      {
+        "dataset_size": 34874,
+        "test_accuracy_mean": 0.9364599927780964,
+        "test_accuracy_std": 0.0032333992390213345,
+        "test_accuracy_min": 0.9288854903460142,
+        "test_accuracy_max": 0.943987765245651,
+        "test_f1_macro_mean": 0.8791184787345928,
+        "test_f1_macro_std": 0.006446673255528685,
+        "validation_accuracy_mean": 0.9362364084267754,
+        "validation_accuracy_std": 0.0029138628494902448,
+        "n": 90
+      }
+    ]
+  },
+  "exp5": {
+    "stats": [
+      {
+        "generator_name": "numpy_mt19937",
+        "elapsed_mean": 0.00539110416666679,
+        "elapsed_std": 9.115822596934877e-05,
+        "elapsed_min": 0.005335500000001,
+        "elapsed_max": 0.0058149590000002,
+        "n": 30
+      },
+      {
+        "generator_name": "numpy_pcg64",
+        "elapsed_mean": 0.00525707090000001,
+        "elapsed_std": 0.00025623200342308035,
+        "elapsed_min": 0.0051844580000004,
+        "elapsed_max": 0.0066111249999991,
+        "n": 30
+      },
+      {
+        "generator_name": "pcg64_cp_alite1",
+        "elapsed_mean": 0.2970054597000001,
+        "elapsed_std": 0.0019827301439170083,
+        "elapsed_min": 0.2935849159999999,
+        "elapsed_max": 0.300383,
+        "n": 30
+      }
+    ],
+    "slowest": {
+      "generator_name": "pcg64_cp_alite1",
+      "elapsed_mean": 0.2970054597000001,
+      "elapsed_std": 0.0019827301439170083,
+      "elapsed_min": 0.2935849159999999,
+      "elapsed_max": 0.300383,
+      "n": 30
+    },
+    "fastest": {
+      "generator_name": "numpy_pcg64",
+      "elapsed_mean": 0.00525707090000001,
+      "elapsed_std": 0.00025623200342308035,
+      "elapsed_min": 0.0051844580000004,
+      "elapsed_max": 0.0066111249999991,
+      "n": 30
+    }
+  },
+  "format_helpers": {
+    "generator_labels": {
+      "numpy_mt19937": "MT19937",
+      "numpy_pcg64": "NumPy PCG64",
+      "pcg64_cp_alite1": "PCG64-CP A Lite 1"
+    }
+  }
+}

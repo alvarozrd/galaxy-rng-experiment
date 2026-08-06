@@ -1,0 +1,2 @@
+generator_name,test_accuracy_mean,test_accuracy_std,test_accuracy_min,test_accuracy_max,test_f1_macro_mean,test_f1_macro_std,validation_accuracy_mean,validation_accuracy_std,n
+numpy_pcg64,0.933588224048939,0.0012922811057844595,0.9313706748231696,0.9363410437774804,0.8734132212177921,0.0025303797850302423,0.9371241080530072,0.0010887304892217568,30
